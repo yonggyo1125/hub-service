@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public class WithMockUserSecurityContextFactory implements WithSecurityContextFactory<MockUser> {
@@ -19,7 +20,7 @@ public class WithMockUserSecurityContextFactory implements WithSecurityContextFa
                 .username(user.username())
                 .name(user.name())
                 .email(user.email())
-                .roles(String.join(",", user.roles()))
+                .roles(String.join(",", Arrays.stream(user.roles()).map(s -> "ROLE_" + s).toList()))
                 .build();
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
