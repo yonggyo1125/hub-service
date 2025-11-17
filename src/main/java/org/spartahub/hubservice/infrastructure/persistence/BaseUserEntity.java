@@ -21,4 +21,9 @@ public class BaseUserEntity extends BaseEntity{
 
     @Column(length=45, insertable = false)
     private String deletedBy;
+
+    protected  void updateDelete(String deletedBy) {
+        updateDelete();
+        this.deletedBy = deletedBy;
+    }
 }

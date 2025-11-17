@@ -2,6 +2,7 @@ package org.spartahub.hubservice.domain.hub;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.spartahub.hubservice.domain.hub.dto.HubDto;
 import org.spartahub.hubservice.infrastructure.persistence.BaseUserEntity;
 import org.springframework.util.StringUtils;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 /**
  * 1. 허브 정보 변경은 마스터 관리자만 가능
  * 2. 허브 주소 등록/수정 시 위도,경도를 업데이트 한다.
+ * 3. 허브 삭제는 소프트 삭제로 처리하여 기존 허브간의 이동 거리가 기록될 수 있도록 한다.
  *
  */
 @Getter
@@ -30,7 +32,7 @@ public class Hub extends BaseUserEntity {
     public Hub(HubId id, String hubName, String address, HubAddressToCoords addressToCoords, HubRoleCheck hubRoleCheck) {
         hubRoleCheck.masterCheck(); // 허브 등록 수정은 마스터 권한으로 한정
 
-        this.id = id;
+        this.id = Objects.requireNonNullElse(id, HubId.of());
         this.hubName = hubName;
         setLocation(address, addressToCoords, hubRoleCheck); // 주소 -> 좌표 변환
     }
@@ -50,5 +52,26 @@ public class Hub extends BaseUserEntity {
 
     public void changeLocation(String address, HubAddressToCoords addressToCoords, HubRoleCheck hubRoleCheck) {
         setLocation(address, addressToCoords, hubRoleCheck);
+    }
+
+    /**
+     * 허브 삭제
+     *
+     * @param deletedBy
+     */
+    public void delete(String deletedBy) {
+        updateDelete(deletedBy);
+    }
+
+    public HubDto toDto() {
+        return HubDto.builder()
+                .id(id.getId())
+                .hubName(hubName)
+                .address(location.getAddress())
+                .latitude(location.getLatitude())
+                .longitude(location.getLongitude())
+                .createdAt(getCreatedAt())
+                .modifiedAt(getModifiedAt())
+                .build();
     }
 }
