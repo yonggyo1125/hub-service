@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -30,10 +31,10 @@ public class HubController {
      */
     @PostMapping("create")
     @ResponseStatus(HttpStatus.CREATED)
-    public HubId createHub(@Valid @RequestBody HubCreateRequest request) {
+    public Map<String, UUID> createHub(@Valid @RequestBody HubCreateRequest request) {
         HubDto hub = createService.create(request);
 
-        return HubId.of(hub.id());
+        return Map.of("id", hub.id());
     }
 
     /**
