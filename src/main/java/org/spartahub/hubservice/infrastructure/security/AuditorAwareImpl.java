@@ -1,4 +1,6 @@
 package org.spartahub.hubservice.infrastructure.security;
 
-public class AuditorAwareImpl {
+import org.springframework.data.domain.AuditorAware;
+
+public class AuditorAwareImpl  {
 }
