@@ -27,20 +27,20 @@ public class Hub extends BaseUserEntity {
     private HubLocation location;
 
     @Builder
-    public Hub(HubId id, String hubName, String address, HubAddressToCoords addressToCoords, RoleCheck roleCheck) {
-        roleCheck.check(); // 허브 등록 수정은 마스터 권한으로 한정
+    public Hub(HubId id, String hubName, String address, HubAddressToCoords addressToCoords, HubRoleCheck hubRoleCheck) {
+        hubRoleCheck.masterCheck(); // 허브 등록 수정은 마스터 권한으로 한정
 
         this.id = id;
         this.hubName = hubName;
-        setLocation(address, addressToCoords, roleCheck); // 주소 -> 좌표 변환
+        setLocation(address, addressToCoords, hubRoleCheck); // 주소 -> 좌표 변환
     }
 
 
     // 허브 주소를 위도, 경도 좌표로 설정
-    private void setLocation(String address, HubAddressToCoords addressToCoords, RoleCheck roleCheck) {
+    private void setLocation(String address, HubAddressToCoords addressToCoords, HubRoleCheck hubRoleCheck) {
         if (!StringUtils.hasText(address) || addressToCoords == null) return;
 
-        roleCheck.check(); // 주소 등록, 수정은 마스터 권한으로 한정
+        hubRoleCheck.masterCheck(); // 주소 등록, 수정은 마스터 권한으로 한정
 
         List<Double> coords = addressToCoords.convert(address);
         if (coords == null || coords.size() < 2) return;
@@ -48,7 +48,7 @@ public class Hub extends BaseUserEntity {
         this.location = new HubLocation(address, Objects.requireNonNullElse(coords.get(0), 0.0), Objects.requireNonNullElse(coords.get(1), 0.0));
     }
 
-    public void changeLocation(String address, HubAddressToCoords addressToCoords, RoleCheck roleCheck) {
-        setLocation(address, addressToCoords, roleCheck);
+    public void changeLocation(String address, HubAddressToCoords addressToCoords, HubRoleCheck hubRoleCheck) {
+        setLocation(address, addressToCoords, hubRoleCheck);
     }
 }
