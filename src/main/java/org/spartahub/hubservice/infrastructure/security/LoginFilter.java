@@ -14,6 +14,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 /**
@@ -54,6 +56,8 @@ public class LoginFilter extends GenericFilterBean {
         String name = request.getHeader(HEADER_USER_NAME);
         String email = request.getHeader(HEADER_EMAIL);
         String roles = request.getHeader(HEADER_ROLES);
+
+        name = name == null ? null : URLDecoder.decode(name, StandardCharsets.UTF_8);
 
         // userId와 username은 로그인을 위한 필수 항목
         if (!StringUtils.hasText(userId) || !StringUtils.hasText(username)) {

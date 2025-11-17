@@ -1,6 +1,7 @@
 package org.spartahub.hubservice.infrastructure.security;
 
 import org.spartahub.hubservice.domain.hub.HubRoleCheck;
+import org.spartahub.hubservice.domain.hub.exception.UnAuthorizedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +17,13 @@ public class SecurityHubRoleCheck implements HubRoleCheck {
     @Override
     public void masterCheck() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isPermitted = false;
         if (auth != null && auth.getPrincipal() instanceof UserDetails userDetails) {
+            isPermitted = userDetails.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_MASTER"));
+        }
 
+        if (!isPermitted) {
+            throw new UnAuthorizedException();
         }
     }
 }
