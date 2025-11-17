@@ -9,6 +9,7 @@ import org.spartahub.hubservice.domain.hub.HubId;
 import org.spartahub.hubservice.domain.hub.QHub;
 import org.spartahub.hubservice.domain.hub.dto.HubDto;
 import org.spartahub.hubservice.infrastructure.persistence.exception.HubNotFoundException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -28,6 +29,7 @@ public class HubDetailsDao implements HubDetailsRepository {
      * @return
      */
     @Override
+    @Cacheable(cacheNames = "hubItemCache2", key="args[0].id")
     public HubDto findById(HubId id) {
         QHub qHub = QHub.hub;
         Hub hub = queryFactory.selectFrom(qHub)
@@ -45,6 +47,7 @@ public class HubDetailsDao implements HubDetailsRepository {
      * @return
      */
     @Override
+    @Cacheable(cacheNames = "hubItemsByIdsCache", condition = "#p1 != null", key="args[0]")
     public List<HubDto> findAll(Collection<HubId> ids) {
         QHub hub = QHub.hub;
         BooleanBuilder builder = new BooleanBuilder();
@@ -58,6 +61,7 @@ public class HubDetailsDao implements HubDetailsRepository {
         return  items == null ? null : items.stream().map(Hub::toDto).toList();
     }
 
+    @Cacheable(cacheNames = "hubItemsByUUIDCache", condition = "#p1 != null", key="args[0]")
     public List<HubDto> findAllByUUID(Collection<UUID> ids) {
         return findAll(ids == null ? null : ids.stream().map(HubId::of).toList());
     }
@@ -67,6 +71,7 @@ public class HubDetailsDao implements HubDetailsRepository {
      *
      * @return
      */
+    @Cacheable(cacheNames = "hubItemAllCache", key="methodName")
     public List<HubDto> findAll() {
         return findAll(null);
     }

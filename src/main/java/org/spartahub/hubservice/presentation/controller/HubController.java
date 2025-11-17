@@ -63,7 +63,7 @@ public class HubController {
      *
      * @param hubId
      */
-    @GetMapping("{hubId}/delete")
+    @DeleteMapping("{hubId}")
     public void deleteHub(@PathVariable("hubId") UUID hubId, @AuthenticationPrincipal UserDetails userDetails) {
         deleteService.delete(userDetails.getUsername(), hubId);
     }
