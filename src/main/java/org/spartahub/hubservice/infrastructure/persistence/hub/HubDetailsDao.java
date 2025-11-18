@@ -47,7 +47,7 @@ public class HubDetailsDao implements HubDetailsRepository {
      * @return
      */
     @Override
-    @Cacheable(cacheNames = "hubItems", key="args[0]")
+    @Cacheable(cacheNames = "hubItems", condition = "#p1 != null", key="args[0]")
     public List<HubDto> findAll(Collection<HubId> ids) {
         QHub hub = QHub.hub;
         BooleanBuilder builder = new BooleanBuilder();
