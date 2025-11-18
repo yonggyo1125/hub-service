@@ -1,4 +1,4 @@
-package org.spartahub.hubservice.domain.hub.exception;
+package org.spartahub.hubservice.domain.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpStatusCodeException;

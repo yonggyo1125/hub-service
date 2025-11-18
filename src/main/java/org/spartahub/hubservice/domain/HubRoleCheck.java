@@ -1,4 +1,4 @@
-package org.spartahub.hubservice.domain.hub;
+package org.spartahub.hubservice.domain;
 
 public interface HubRoleCheck {
     void masterCheck();

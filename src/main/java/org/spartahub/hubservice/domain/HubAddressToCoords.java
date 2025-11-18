@@ -1,4 +1,4 @@
-package org.spartahub.hubservice.domain.hub;
+package org.spartahub.hubservice.domain;
 
 import java.util.List;
 

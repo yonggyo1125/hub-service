@@ -1,6 +1,5 @@
-package org.spartahub.hubservice.domain.hub.dto;
+package org.spartahub.hubservice.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 
 import java.io.Serializable;
@@ -11,11 +10,10 @@ import java.util.UUID;
 public record HubDto(
     UUID id,
     String hubName,
+    UUID centralHubId,
     String address,
     double latitude,
     double longitude,
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime createdAt,
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime modifiedAt
 ) implements Serializable {}

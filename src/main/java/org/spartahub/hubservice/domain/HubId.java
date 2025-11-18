@@ -1,8 +1,9 @@
-package org.spartahub.hubservice.domain.hub;
+package org.spartahub.hubservice.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @ToString
@@ -18,10 +19,11 @@ public class HubId {
     }
 
     public static HubId of(UUID id) {
+        id = Objects.requireNonNullElse(id, UUID.randomUUID());
         return new HubId(id);
     }
 
     public static HubId of() {
-        return HubId.of(UUID.randomUUID());
+        return HubId.of(null);
     }
 }

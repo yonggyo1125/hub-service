@@ -1,7 +1,7 @@
 package org.spartahub.hubservice.infrastructure.security;
 
-import org.spartahub.hubservice.domain.hub.HubRoleCheck;
-import org.spartahub.hubservice.domain.hub.exception.UnAuthorizedException;
+import org.spartahub.hubservice.domain.HubRoleCheck;
+import org.spartahub.hubservice.domain.exception.UnAuthorizedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

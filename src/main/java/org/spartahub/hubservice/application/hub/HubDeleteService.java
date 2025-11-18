@@ -1,9 +1,9 @@
 package org.spartahub.hubservice.application.hub;
 
 import lombok.RequiredArgsConstructor;
-import org.spartahub.hubservice.domain.hub.Hub;
-import org.spartahub.hubservice.domain.hub.HubId;
-import org.spartahub.hubservice.domain.hub.HubRepository;
+import org.spartahub.hubservice.domain.Hub;
+import org.spartahub.hubservice.domain.HubId;
+import org.spartahub.hubservice.domain.HubRepository;
 import org.spartahub.hubservice.infrastructure.persistence.exception.HubNotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.prepost.PreAuthorize;

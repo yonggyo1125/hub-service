@@ -1,6 +1,6 @@
-package org.spartahub.hubservice.domain.hub;
+package org.spartahub.hubservice.domain;
 
-import org.spartahub.hubservice.domain.hub.dto.HubDto;
+import org.spartahub.hubservice.domain.dto.HubDto;
 
 import java.util.Collection;
 import java.util.List;

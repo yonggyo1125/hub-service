@@ -1,4 +1,4 @@
-package org.spartahub.hubservice.domain.hub;
+package org.spartahub.hubservice.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
