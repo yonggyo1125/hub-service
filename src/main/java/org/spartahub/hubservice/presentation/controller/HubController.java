@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.spartahub.hubservice.application.hub.HubCreateService;
 import org.spartahub.hubservice.application.hub.HubDeleteService;
+import org.spartahub.hubservice.domain.HubDetailsRepository;
 import org.spartahub.hubservice.domain.HubId;
 import org.spartahub.hubservice.domain.dto.HubDto;
 import org.spartahub.hubservice.infrastructure.persistence.hub.HubDetailsDao;
@@ -22,7 +23,7 @@ import java.util.UUID;
 public class HubController {
     private final HubCreateService createService;
     private final HubDeleteService deleteService;
-    private final HubDetailsDao detailsDao;
+    private final HubDetailsRepository detailsRepository;
 
     /**
      * 허브 등록
@@ -46,7 +47,7 @@ public class HubController {
     @GetMapping("{hubId}/retrieval")
     public HubResponse getHub(@PathVariable("hubId") UUID hubId) {
 
-        HubDto item = detailsDao.findById(HubId.of(hubId));
+        HubDto item = detailsRepository.findById(HubId.of(hubId));
 
         return toResponse(item);
 
@@ -60,7 +61,7 @@ public class HubController {
      */
     @GetMapping("items")
     public List<HubResponse> getHubs(@RequestParam(name="hubId", required = false) List<UUID> hubIds) {
-        List<HubDto> items = detailsDao.findAllByUUID(hubIds);
+        List<HubDto> items = detailsRepository.findAllByUUID(hubIds);
 
         return items == null ? List.of() : items.stream().map(this::toResponse).toList();
     }

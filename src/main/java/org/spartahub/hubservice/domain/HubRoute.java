@@ -21,10 +21,10 @@ public class HubRoute {
     )
     private HubId endHub;
 
-    @Column(columnDefinition = "cost DOUBLE PRECISION")
+   // @Column(columnDefinition = "cost DOUBLE PRECISION")
     private Double cost; // 정방향 통행 비용
 
-    @Column(columnDefinition = "reverse_cost DOUBLE PRECISION")
+    //@Column(columnDefinition = "reverse_cost DOUBLE PRECISION")
     private Double reverseCost; // 역방향 통행비용
 
 

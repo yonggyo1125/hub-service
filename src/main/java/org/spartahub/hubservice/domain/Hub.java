@@ -33,6 +33,9 @@ public class Hub extends BaseUserEntity {
     private String hubName;
 
     @Embedded
+    @AttributeOverrides(
+            @AttributeOverride(name="id", column = @Column(name="central_hub_id"))
+    )
     private HubId centralHubId; // 소속된 중앙 허브 ID
 
     @Embedded
