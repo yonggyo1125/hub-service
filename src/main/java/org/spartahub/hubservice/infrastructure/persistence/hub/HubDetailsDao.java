@@ -9,6 +9,7 @@ import org.spartahub.hubservice.domain.hub.HubId;
 import org.spartahub.hubservice.domain.hub.QHub;
 import org.spartahub.hubservice.domain.hub.dto.HubDto;
 import org.spartahub.hubservice.infrastructure.persistence.exception.HubNotFoundException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -28,6 +29,7 @@ public class HubDetailsDao implements HubDetailsRepository {
      * @return
      */
     @Override
+    @Cacheable(cacheNames = "hubItem", key="args[0].id")
     public HubDto findById(HubId id) {
         QHub qHub = QHub.hub;
         Hub hub = queryFactory.selectFrom(qHub)
