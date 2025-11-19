@@ -8,7 +8,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * 1. 허브 정보 변경은 마스터 관리자만 가능
@@ -28,25 +27,23 @@ import java.util.UUID;
 @Access(AccessType.FIELD)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Hub extends BaseUserEntity {
-    @EmbeddedId
-    private HubId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private Long hubId;
+    @Column(length=50, nullable = false)
     private String hubName;
 
-    @Embedded
-    @AttributeOverrides(
-            @AttributeOverride(name="id", column = @Column(name="central_hub_id"))
-    )
-    private HubId centralHubId; // 소속된 중앙 허브 ID
+    private Long centralHubId; // 소속된 중앙 허브 ID
 
     @Embedded
     private HubLocation location;
 
     @Builder
-    public Hub(UUID hubId, String hubName, UUID centralHubId, String address, HubAddressToCoords addressToCoords, HubRoleCheck hubRoleCheck) {
+    public Hub(Long hubId, String hubName, Long centralHubId, String address, HubAddressToCoords addressToCoords, HubRoleCheck hubRoleCheck) {
         hubRoleCheck.masterCheck(); // 허브 등록 수정은 마스터 권한으로 한정
-
-        this.id = HubId.of(hubId);
-        this.centralHubId = HubId.of(centralHubId);
+        if (hubId != null) this.hubId = hubId;
+        if (centralHubId != null) this.centralHubId = centralHubId;
         this.hubName = hubName;
         setLocation(address, addressToCoords, hubRoleCheck); // 주소 -> 좌표 변환
     }
@@ -79,8 +76,8 @@ public class Hub extends BaseUserEntity {
 
     public HubDto toDto() {
         return HubDto.builder()
-                .id(id.getId())
-                .centralHubId(centralHubId.getId())
+                .id(hubId)
+                .centralHubId(centralHubId)
                 .hubName(hubName)
                 .address(location.getAddress())
                 .latitude(location.getLatitude())

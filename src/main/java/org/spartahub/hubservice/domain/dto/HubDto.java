@@ -4,13 +4,12 @@ import lombok.Builder;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Builder
 public record HubDto(
-    UUID id,
+    Long id,
     String hubName,
-    UUID centralHubId,
+    Long centralHubId,
     String address,
     double latitude,
     double longitude,

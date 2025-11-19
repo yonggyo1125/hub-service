@@ -19,7 +19,7 @@ public class HubCreateServiceTest {
     @DisplayName("허브 등록 테스트")
     @MockUser(roles="MASTER")
     void createTest() {
-        HubRequest request = new HubRequest("서울특별시 센터", "서울특별시 송파구 송파대로 55");
+        HubRequest request = new HubRequest("서울특별시 센터", 1L, "서울특별시 송파구 송파대로 55");
         HubDto dto = createService.create(request);
         System.out.println("등록된 허브:" + dto);
     }

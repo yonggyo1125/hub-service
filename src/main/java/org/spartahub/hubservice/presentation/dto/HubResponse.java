@@ -4,11 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Builder
 public record HubResponse(
-        UUID id,
+        Long id,
         String hubName,
         String address,
         double latitude,

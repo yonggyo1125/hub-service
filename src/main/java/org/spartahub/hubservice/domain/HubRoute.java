@@ -8,25 +8,14 @@ public class HubRoute {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="source")
+    private Long startHub;
 
-    @Embedded
-    @AttributeOverrides(
-            @AttributeOverride(name="id", column = @Column(name="source"))
-    )
-    private HubId startHub;
+    @Column(name="target")
+    private Long endHub;
 
-    @Embedded
-    @AttributeOverrides(
-            @AttributeOverride(name="id", column = @Column(name="target"))
-    )
-    private HubId endHub;
+    private double cost; // 정방향 통행 비용
 
-   // @Column(columnDefinition = "cost DOUBLE PRECISION")
-    private Double cost; // 정방향 통행 비용
-
-    //@Column(columnDefinition = "reverse_cost DOUBLE PRECISION")
-    private Double reverseCost; // 역방향 통행비용
-
-
+    private double reverseCost; // 역방향 통행비용
 
 }

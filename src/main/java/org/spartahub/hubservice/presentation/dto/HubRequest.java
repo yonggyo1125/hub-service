@@ -1,15 +1,13 @@
 package org.spartahub.hubservice.presentation.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
-import java.util.UUID;
-
+@Builder
 public record HubRequest(
         @NotBlank
         String hubName,
-        @NotNull
-        UUID centralHubId,
+        Long centralHubId, // 값이 없다면 중앙 허브
         @NotBlank
         String address
 ) {}
