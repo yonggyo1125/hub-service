@@ -16,6 +16,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @RequiredArgsConstructor
 public class FeighConfig {
 
+    private static final String HEADER_USER_ID = "X-User-Id";
+    private static final String HEADER_USERNAME = "X-Username";
+    private static final String HEADER_ROLES = "X-User-Roles";
+    private static final String HEADER_EMAIL = "X-User-Email";
+    private static final String HEADER_USER_NAME = "X-User-Name";
+
     /**
      * OpenFeign 요청시 JWT 토큰이 있다면 함께 전송
      * @return
@@ -23,14 +29,28 @@ public class FeighConfig {
     @Bean
     public RequestInterceptor requestInterceptor() {
 
+
         return tpl -> {
             RequestAttributes attrs = RequestContextHolder.getRequestAttributes();
             if (attrs instanceof ServletRequestAttributes) {
                 HttpServletRequest req = ((ServletRequestAttributes) attrs).getRequest();
                 String authorization = req.getHeader("Authorization");
-                if (StringUtils.hasText(authorization)) {
+                if (StringUtils.hasText(authorization)) { // user-service 인증 용
                     tpl.header("Authorization", authorization);
                 }
+
+                // 그외 나머지 서비스들은 하기 헤더 정보로 인증
+                String userId = req.getHeader(HEADER_USER_ID);
+                String username = req.getHeader(HEADER_USERNAME);
+                String name = req.getHeader(HEADER_USER_NAME);
+                String email = req.getHeader(HEADER_EMAIL);
+                String roles = req.getHeader(HEADER_ROLES);
+
+                if (StringUtils.hasText(userId)) tpl.header(HEADER_USER_ID, userId);
+                if (StringUtils.hasText(username)) tpl.header(HEADER_USERNAME, username);
+                if (StringUtils.hasText(name)) tpl.header(HEADER_USER_NAME, name);
+                if (StringUtils.hasText(email)) tpl.header(HEADER_EMAIL, email);
+                if (StringUtils.hasText(roles)) tpl.header(HEADER_ROLES, roles);
             }
 
         };
