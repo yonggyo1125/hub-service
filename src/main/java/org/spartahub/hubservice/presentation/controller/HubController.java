@@ -7,12 +7,10 @@ import org.spartahub.hubservice.application.hub.HubCreateService;
 import org.spartahub.hubservice.application.hub.HubDeleteService;
 import org.spartahub.hubservice.domain.HubDetailsRepository;
 import org.spartahub.hubservice.domain.dto.HubDto;
-import org.spartahub.hubservice.presentation.client.UserClient;
 import org.spartahub.hubservice.presentation.dto.HubRequest;
 import org.spartahub.hubservice.presentation.dto.HubResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +24,6 @@ public class HubController {
     private final HubCreateService createService;
     private final HubDeleteService deleteService;
     private final HubDetailsRepository detailsRepository;
-    private final UserClient userClient;
 
     /**
      * 허브 등록
@@ -79,12 +76,6 @@ public class HubController {
         deleteService.delete(userDetails.getUsername(), hubId);
     }
 
-    @GetMapping("test")
-    public void test() {
-        log.info("권한: {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        //String res = userClient.getUserProfile();
-        //log.info("userProfile:{}", res);
-    }
 
     // HubDto -> HubResponse
     private HubResponse toResponse(HubDto item) {
